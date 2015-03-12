@@ -60,7 +60,13 @@ function showUserInfo(event) {
     $('#userInfoAge').text(thisUserObject.age);
     $('#userInfoGender').text(thisUserObject.gender);
     $('#userInfoLocation').text(thisUserObject.location);
-    $('#userInfoWatchedAnime').text(thisUserObject.anime);
+    if (thisUserObject.anime != null) {
+        $('#userInfoWatchedAnime').text(thisUserObject.anime);
+    }
+    else {
+        $('#userInfoWatchedAnime').text('Nothing');
+    }
+    
 
 };
 
@@ -94,7 +100,7 @@ function addAnime(event) {
 
                 $('addAnime fieldset input').val('');
 
-                populateTable();
+                showUserInfo();
             }
             else {
 
@@ -169,5 +175,32 @@ function addUser(event) {
     }
 };
 
-// Delete user by clicking on link
-$('#user')
+// Delete user by clicking on link, makes reference to the userlist because it needs a static object to refer to
+$('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+
+function deleteUser(event) {
+    event.preventDefault();
+
+    var confirmation = confirm('Are you sure you want to delete this user?');
+
+    if (confirmation === true) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/users/deleteuser/' + $(this).attr('rel')
+        }).done(function (response) {
+            if (response.msg === '') {
+            }
+            else {
+                alert('Error ' + response.msg);
+            }
+
+            populateTable();
+
+        });
+
+    }
+    else {
+
+        return false;
+    }
+};

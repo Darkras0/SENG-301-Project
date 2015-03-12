@@ -57,7 +57,7 @@ router.post('/addanime', function (req, res) {
 router.delete('/deleteuser/:id', function (req, res) {
     var db = req.db;
     var user_id = req.params.id;
-    db.collection('userlist').deleteById(user_id, function (error, result) {
+    db.collection('userlist').removeById(user_id, function (error, result) {
         res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
     });
 });
