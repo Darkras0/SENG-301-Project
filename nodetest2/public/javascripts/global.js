@@ -37,14 +37,42 @@ function populateTable() {
 
         // Inject the whole content string into our existing HTML table
         $('#userList table tbody').html(tableContent);
+
+
     });
 };
+
+// Fill anime table with data
+function populateAnimeTable(thisUserObject) {
+
+    // Empty content string
+    var tableContent = '';
+
+
+    // For each item in our JSON, add a table row and cells to the content string
+
+ 
+    for (var i = 0; i < thisUserObject.anime.length; i++) {
+        tableContent += '<tr>';
+        tableContent += '<td>' + thisUserObject.anime[i] + '</td>';
+        tableContent += '<td>' + i + '</td>';
+        tableContent += '</tr>';
+    }
+
+
+        
+ 
+    $('#watchedAnime table tbody').html(tableContent);
+}
 
 // Show User Info
 function showUserInfo(event) {
 
     // Prevent Link from Firing
     event.preventDefault();
+
+    // Empty content string for populating anime table
+    var tableContent = '';
 
     // Retrieve username from link rel attribute
     var thisUserName = $(this).attr('rel');
@@ -66,6 +94,9 @@ function showUserInfo(event) {
     else {
         $('#userInfoWatchedAnime').text('Nothing');
     }
+    
+    //Populate Anime Box
+    populateAnimeTable(thisUserObject);
     
 
 };

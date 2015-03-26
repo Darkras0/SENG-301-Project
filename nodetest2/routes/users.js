@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+app.post("/signup", passport.authenticate("local-signup", {
+    successRedirect: "/",
+    failureRedirect: "/signup",
+    failureFlash : true
+}));
+
 /*
  * GET userlist.
  */
