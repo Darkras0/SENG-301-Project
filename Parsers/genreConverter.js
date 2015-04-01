@@ -1,4 +1,5 @@
 //input a genre name, the output will be the corresponding URL part for that genre when searching
+//if the genre does not exist, the output will be a blank string
 function genreURL(genre) {
 	var result;
 	switch (genre) {
