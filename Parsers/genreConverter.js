@@ -1,7 +1,8 @@
 //input a genre name, the output will be the corresponding URL part for that genre when searching
 //if the genre does not exist, the output will be a blank string
-function genreURL(genre) {
+function genreURL(genre, callback) {
 	var result;
+	
 	switch (genre) {
 		case "Action":
 			result = "&genre[]=1";
@@ -135,5 +136,7 @@ function genreURL(genre) {
 		default:
 			result = "";
 	}
-	return result;
+	//return result;
+	//alert(result);
+	callback(result);
 }

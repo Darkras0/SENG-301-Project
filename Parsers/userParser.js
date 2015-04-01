@@ -13,12 +13,12 @@
 	// replace this with the url needed
 	var your_url = 'http://myanimelist.net/malappinfo.php?u=itachi0970&status=all&type=anime';
 	
-	function removeBrackets(input) {
-		return input
-			.replace(/<.*?>/g, "");
-	}
+function removeBrackets(input) {
+	return input
+		.replace(/<.*?>/g, "");
+}
 
-function userResults(username) {
+function userResults(username, callback) {
 	
 	var results;
 	
@@ -164,7 +164,9 @@ function userResults(username) {
 			results.splice(0,1);
 			results.splice(results.length-2,2);
 			
-			//document.write(results);
+			//alert(results);
+			//return results;
+			callback(results);
 			
 			// results now contains an array of the anime that matched the search results, sorted by user score in descending order.
 			// it is a multidimensional array:
@@ -172,5 +174,6 @@ function userResults(username) {
 		}
 	});
 	
-	return results;
+	//return results;
+	//callback(results);
 }

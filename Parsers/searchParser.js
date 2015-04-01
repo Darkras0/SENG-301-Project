@@ -16,7 +16,7 @@ function removeBrackets(input) {
 		.replace(/<.*?>/g, "");
 }
 
-function searchResults(title, genres) {
+function searchResults(title, genres, callback) {
 	
 	var results = [];
 	
@@ -89,7 +89,7 @@ function searchResults(title, genres) {
 
 
 	$.ajax({
-		url: 'http://myanimelist.net/anime.php?q=' + title + '&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0' + genres,
+		url: 'http://myanimelist.net/anime.php?q=' + title + '&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0' + genres + "&o=3&w=1",
 		type: 'GET',
 		success: function(res) {
 			var text = res.responseText;
@@ -103,10 +103,13 @@ function searchResults(title, genres) {
 				var s1 = text.substring(n2, n3);
 				results.push(s1);
 			}			
-			document.write(results);
+			//document.write(results);
+			callback(results);
+			//return results;
 			// results now contains an array of the anime that matched the search results.
 		}
 	});
 	
-	return results;
+	//return results;
+	//callback(results);
 }

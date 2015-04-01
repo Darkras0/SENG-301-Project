@@ -9,7 +9,7 @@ function removeBrackets(input) {
 		.replace(/<.*?>/g, "");
 }
 
-function genreResults(urlTitle) {
+function genreResults(urlTitle, callback) {
 	
 	var result;
 
@@ -82,7 +82,7 @@ function genreResults(urlTitle) {
 
 
 	$.ajax({
-		url: 'http://myanimelist.net' + urlTitle,
+		url: urlTitle,
 		type: 'GET',
 		success: function(res) {
 			var text = res.responseText;
@@ -94,10 +94,17 @@ function genreResults(urlTitle) {
 			gen = removeBrackets(gen);
 			var gen2 = gen.split(":");
 			var gen3 = gen2[1];
-			result = gen3.split(",");
-			// result now contains an array of all the genres for the anime.
+			var gen4 = gen3.split(",");
+			for (var i = 0; i < gen4.length; i++) {
+				gen4[i] = gen4[i].replace(/ /g,"");
+			}
+			gen4[0] = gen4[0].substring(1,gen4[0].length);
+			// gen4 now contains an array of all the genres for the anime.
+			//document.write(gen3);
+			callback(gen4);
 		}
 	});
 	
-	return result;
+	//return result;
+	//callback(result);
 }
