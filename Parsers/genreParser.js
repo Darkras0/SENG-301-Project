@@ -1,19 +1,18 @@
-<html>
-<head>
-</head>
-<body>
-	<script type="text/javascript">
-	// replace this with the url needed
-	var your_url = 'http://myanimelist.net/anime.php?q=fullmetal&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0&genre[]=1&genre[]=2';
-	
-	function removeBrackets(input) {
-		return input
-			.replace(/<.*?>/g, "");
-	}
-	</script>
+// call this function with: var a = genreResults(titleURL)
+// input argument must be in the form of a string: /anime/n/m	found at the end of the url on a specific anime's page
+// the value returned will be an array of strings, where each string is one of the genres for that anime
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
-	<script type="text/javascript">
+// make sure you have <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script> in the html file
+	
+function removeBrackets(input) {
+	return input
+		.replace(/<.*?>/g, "");
+}
+
+function genreResults(urlTitle) {
+	
+	var result;
+
 	// jquery.xdomainajax.js  ------ from padolsey
 
 	jQuery.ajax = (function(_ajax){
@@ -83,26 +82,22 @@
 
 
 	$.ajax({
-		url: your_url,
+		url: 'http://myanimelist.net' + urlTitle,
 		type: 'GET',
 		success: function(res) {
 			var text = res.responseText;
 			// then you can manipulate your text as you wish
-			var results = [];
-			var n3 = 0;
-			// edit this line to change how many anime titles are returned.
-			for (var i = 0; i < 5; i++){
-				var n1 = text.indexOf("picSurround", n3);
-				var n2 = text.indexOf("/anime/", n1+1);
-				n3 = text.indexOf("\"", n2+1);
-				var s1 = text.substring(n2, n3);
-				results.push(s1);
-			}			
-			document.write(results);
-			// results now contains an array of the anime that matched the search results.
+			var n = text.search("Genres:");
+			// if n = -1, the page does not have the word "Genres:" on it.
+			var m = text.search("Duration:");
+			var gen = text.substring(n, m);
+			gen = removeBrackets(gen);
+			var gen2 = gen.split(":");
+			var gen3 = gen2[1];
+			result = gen3.split(",");
+			// result now contains an array of all the genres for the anime.
 		}
 	});
-
-	</script>
-</body>
-</html>
+	
+	return result;
+}

@@ -1,19 +1,25 @@
-<html>
-<head>
-</head>
-<body>
-	<script type="text/javascript">
-	// replace this with the url needed
-	var your_url = 'http://myanimelist.net/anime.php?q=fullmetal&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0&genre[]=1&genre[]=2';
-	
-	function removeBrackets(input) {
-		return input
-			.replace(/<.*?>/g, "");
-	}
-	</script>
+//call this function with: var a = searchResults(title, genres)
+//to call this function requires two input arguments: title and genres
+//if you don't want to use a title, make the first argument ''
+//the title can be any string
+//if you don't want to use genres, make the second argument ''
+//the genres must be in the form of a single string: &genre[]=n&genre[]=m&genre[]=p etc., where n/m/p are the numbers corresponding to each genre
+//e.g. &genre[]=1 is action, &genre[]=2 is adventure
+//the value returned will be an array of strings containing the first 5 anime titles that appear after searching
+//each string will be in the form: /anime/n/m	found at the end of the url on a specific anime's page
+//if there are less than 5 results, the results will start repeating in the array
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
-	<script type="text/javascript">
+// make sure you have <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script> in the html file
+	
+function removeBrackets(input) {
+	return input
+		.replace(/<.*?>/g, "");
+}
+
+function searchResults(title, genres) {
+	
+	var results = [];
+	
 	// jquery.xdomainajax.js  ------ from padolsey
 
 	jQuery.ajax = (function(_ajax){
@@ -83,12 +89,11 @@
 
 
 	$.ajax({
-		url: your_url,
+		url: 'http://myanimelist.net/anime.php?q=' + title + '&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0' + genres,
 		type: 'GET',
 		success: function(res) {
 			var text = res.responseText;
 			// then you can manipulate your text as you wish
-			var results = [];
 			var n3 = 0;
 			// edit this line to change how many anime titles are returned.
 			for (var i = 0; i < 5; i++){
@@ -102,7 +107,6 @@
 			// results now contains an array of the anime that matched the search results.
 		}
 	});
-
-	</script>
-</body>
-</html>
+	
+	return results;
+}
