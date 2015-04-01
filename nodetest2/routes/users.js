@@ -1,5 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../models/user')
+var mongoose = require('mongoose');
+var passport = require('passport');
+var path = require('path');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
+
+
 
 /*
  * GET userlist.
@@ -17,8 +25,9 @@ router.get('/userlist', function (req, res) {
  */
 router.post('/adduser', function (req, res) {
     var db = req.db;
-//    var body = req.body.username
- //   console.log("User name = " + body);
+
+    var body = req.body.username
+    console.log("User name = " + body);
 
     
     db.collection('userlist').insert(req.body, function (err, result) {
@@ -26,6 +35,31 @@ router.post('/adduser', function (req, res) {
             (err === null) ? { msg: '' } : { msg: err }
         );
     });
+   /*
+   var addedUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        fullname: req.body.fullname,
+        age: req.body.age,
+        location: req.body.location,
+        gender: req.body.gender,
+        watchedAnime: {
+            animeName: "test",
+            genre: "test" 
+        }
+    });
+    
+    console.log("Added user = " + addedUser);
+
+    addedUser.save(function (err) {
+        if (err) {
+            console.log("not able to save: " + addedUser.username);
+        } else {
+            
+            console.log('User saved successfully!');
+        }
+    });*/
+    
     
 });
 
@@ -35,13 +69,22 @@ router.post('/adduser', function (req, res) {
 router.post('/addanime', function (req, res) {
     var db = req.db;
     var username = req.body.username
-    var anime = req.body.anime
-//    console.log("User name = " + username + "\nAnime: = " + anime);
+    var anime = req.body.animeName
+    var genre = req.body.genre
+    console.log("User name = " + username + "\nAnime: = " + anime);
 
 
     db.collection('userlist').update(
         { username: username },
-        { $addToSet: { anime : anime } },
+     {
+            $addToSet: {
+                watchedAnime: {
+                    animeName: anime,
+                    genre : genre
+                }
+            }
+        },
+
         function (error, result) {
             if (error) {
                 res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
@@ -61,5 +104,30 @@ router.delete('/deleteuser/:id', function (req, res) {
         res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
     });
 });
+
+
+
+
+
+router.get('/auth', function (req, res, next) {
+    res.sendFile('login.html', { root: path.join(__dirname, '../views') });
+});
+
+
+router.get('/loginFailure' , function (req, res, next) {
+    res.send('Failure to authenticate');
+});
+
+router.get('/loginSuccess' , function (req, res, next) {
+    res.send('Successfully authenticated');
+});
+
+router.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/auth'
+}));
+
+
 
 module.exports = router;

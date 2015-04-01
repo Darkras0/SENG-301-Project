@@ -1,5 +1,8 @@
+
+//var User = require("../../models/user");
 // Userlist data array for filling in info box
 var userListData = [];
+
 
 // DOM Ready
 $(document).ready(function () {
@@ -10,7 +13,6 @@ $(document).ready(function () {
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
 
 });
-
 
 
 // Functions
@@ -48,6 +50,8 @@ function showUserInfo(event) {
 
     // Retrieve username from link rel attribute
     var thisUserName = $(this).attr('rel');
+    var animeString = "";
+    var tableContent = "";
 
     // Get Index of object based on id value
     var arrayPosition = userListData.map(function (arrayItem) { return arrayItem.username; }).indexOf(thisUserName);
@@ -60,13 +64,26 @@ function showUserInfo(event) {
     $('#userInfoAge').text(thisUserObject.age);
     $('#userInfoGender').text(thisUserObject.gender);
     $('#userInfoLocation').text(thisUserObject.location);
-    if (thisUserObject.anime != null) {
-        $('#userInfoWatchedAnime').text(thisUserObject.anime);
+    if (thisUserObject.watchedAnime != null) {
+        for (i = 0; thisUserObject.watchedAnime[i] != null; i++) {
+            animeString = animeString.concat(thisUserObject.watchedAnime[i].animeName + ", ");
+        }
+
+        $('#userInfoWatchedAnime').text(animeString);
     }
     else {
         $('#userInfoWatchedAnime').text('Nothing');
     }
     
+    if (thisUserObject.watchedAnime != null) {
+        for (i = 0; thisUserObject.watchedAnime[i] != null; i++) {
+            tableContent += '<tr>';
+            tableContent += '<td>' + thisUserObject.watchedAnime[i].animeName + '</td>';
+            tableContent += '<td>' + thisUserObject.watchedAnime[i].genre + '</td>';
+            tableContent += '</tr>';
+        }
+    }
+    $('#watchedAnime table tbody').html(tableContent);
 
 };
 
@@ -86,7 +103,8 @@ function addAnime(event) {
     if (errorCount === 0) {
         var addAnime = {
             'username': $('#addAnime fieldset input#userToMod').val(),
-            'anime': $('#addAnime fieldset input#inputAnime').val()
+            'animeName': $('#addAnime fieldset input#inputAnime').val(),
+            'genre': $('#addAnime fieldset input#inputGenre').val()
         }
 
         $.ajax({
@@ -133,14 +151,15 @@ function addUser(event) {
     if (errorCount === 0) {
 
         // If it is, compile all user info into one object
-        var newUser = {
+        var newUser = ({
             'username': $('#addUser fieldset input#inputUserName').val(),
             'email': $('#addUser fieldset input#inputUserEmail').val(),
             'fullname': $('#addUser fieldset input#inputUserFullname').val(),
             'age': $('#addUser fieldset input#inputUserAge').val(),
             'location': $('#addUser fieldset input#inputUserLocation').val(),
-            'gender': $('#addUser fieldset input#inputUserGender').val()
-        }
+            'gender': $('#addUser fieldset input#inputUserGender').val(),
+            'password': $('#addUser fieldset input#inputPassword').val()
+        });
 
         // Use AJAX to post the object to our adduser service
         $.ajax({
@@ -149,6 +168,7 @@ function addUser(event) {
             url: '/users/adduser',
             dataType: 'JSON'
         }).done(function (response) {
+
 
             // Check for successful (blank) response
             if (response.msg === '') {
