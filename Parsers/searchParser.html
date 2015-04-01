@@ -4,7 +4,7 @@
 <body>
 	<script type="text/javascript">
 	// replace this with the url needed
-	var your_url = 'http://myanimelist.net/anime.php?q=&type=0&score=0&status=0&tag=&p=0&r=0&sm=0&sd=0&sy=0&em=0&ed=0&ey=0&c[]=a&c[]=b&c[]=c&gx=0&genre[]=1&genre[]=3';
+	var your_url = 'http://myanimelist.net/anime.php?q=fullmetal';
 	
 	function removeBrackets(input) {
 		return input
@@ -98,6 +98,7 @@
 				var s1 = text.substring(n2, n3);
 				results.push(s1);
 			}			
+			document.write(results);
 			// results now contains an array of the anime that matched the search results.
 		}
 	});
