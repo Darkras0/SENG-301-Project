@@ -108,15 +108,22 @@ router.delete('/deleteuser/:id', function (req, res) {
 
 
 
-
+/*
 router.get('/auth', function (req, res, next) {
     res.sendFile('login.html', { root: path.join(__dirname, '../views') });
 });
+*/
 
+router.get('/auth', function (req, res, next) {
+    res.render('login.jade');
+});
 
 
 router.get('/loginFailure' , function (req, res, next) {
-    res.send("Failed authenticating");
+    req.flash('message', 'Invalid username or password');
+ //   console.log('message: ' + req.flash('message'));
+    res.render('login.jade', { message : req.flash('message') });
+    
 });
 
 router.get('/loginSuccess' , function (req, res, next) {
