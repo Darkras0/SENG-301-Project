@@ -134,10 +134,14 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
     var db = req.db
     var user = req.user
     var password = req.password
-  /*  var myInfo = db.collection('userlist').findOne({ username : user }, function (error, result) {
-        res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
-    });*/
-    res.render('profile', { user: req.user });
+
+
+
+    db.collection('userlist').findOne({ username: user },function (err, results) {
+        console.log(results); // output all records
+        res.render('profile', { user : results });
+    });
+
   /*  $(document).ready(function () {
         
           

@@ -77,10 +77,10 @@ passport.use(new LocalStrategy(
 		function (err, user) {
                 if (err) { return done(err); }
                 if (!user) {
-                    return done(null, false, { message: "The user does not exist." });
+                    return done(null, false);
                 }
-                if (user.password != password) {
-                    return done(null, false, { message: "The password is incorrect." });
+                if (user.password != password || password ==='') {
+                    return done(null, false);
                 }
                 return done(null, user);
             });
