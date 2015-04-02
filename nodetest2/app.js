@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-//var flash = require('connect-flash');
-//var session = require('express-session')
+var flash = require('connect-flash');
+var session = require('express-session')
 
 mongoose.connect('mongodb://localhost:27017/nodetest2');
 
@@ -38,37 +38,10 @@ var User = require('./models/user.js');
 var app = express();
 
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 
-passport.serializeUser(function (user, done) {
-    done(null, user);
-});
 
-passport.deserializeUser(function (user, done) {
-    done(null, user);
-});
-
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-    
-    process.nextTick(function () {
-        db.collection('userlist').findOne({ 'username': username },
-		function (err, user) {
-            if (err) { return done(err); }
-                if (!user) {
-                    return done(null, false);
-                }
-                if (user.password != password) {
-                    return done(null, false);
-                }
-            return done(null, user);
-        });
-    });
-}
-));
 
 
 
@@ -78,13 +51,42 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(session({ secret: 'secret' }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(session({ cookie: { maxAge: 60000 } }));
-//app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(function (user, done) {
+    done(null, user.username);
+});
+
+passport.deserializeUser(function (user, done) {
+    done(null, user);
+});
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        
+        process.nextTick(function () {
+            db.collection('userlist').findOne({ 'username': username },
+		function (err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                    return done(null, false, { message: "The user does not exist." });
+                }
+                if (user.password != password) {
+                    return done(null, false, { message: "The password is incorrect." });
+                }
+                return done(null, user);
+            });
+        });
+    }
+));
 
 //Make our db accessible to our router
 app.use(function (req, res, next) {

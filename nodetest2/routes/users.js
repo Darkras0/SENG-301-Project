@@ -114,8 +114,9 @@ router.get('/auth', function (req, res, next) {
 });
 
 
+
 router.get('/loginFailure' , function (req, res, next) {
-    res.send('Failure to authenticate');
+    res.send("Failed authenticating");
 });
 
 router.get('/loginSuccess' , function (req, res, next) {
@@ -124,10 +125,49 @@ router.get('/loginSuccess' , function (req, res, next) {
 
 router.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users/auth'
+    successRedirect: '/users/profile',
+    failureRedirect: '/users/loginFailure',
+    failureFlash: true
 }));
 
+router.get('/profile', isLoggedIn, function (req, res, next) {
+    var db = req.db
+    var user = req.user
+    var password = req.password
+  /*  var myInfo = db.collection('userlist').findOne({ username : user }, function (error, result) {
+        res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
+    });*/
+    res.render('profile', { user: req.user });
+  /*  $(document).ready(function () {
+        
+          
+        if (thisUserObject.watchedAnime != null) {
+            for (i = 0; thisUserObject.watchedAnime[i] != null; i++) {
+                tableContent += '<tr>';
+                tableContent += '<td>' + myInfo.watchedAnime[i].animeName + '</td>';
+                tableContent += '<td>' + myInfo.watchedAnime[i].genre + '</td>';
+                tableContent += '</tr>';
+            }
+        }
+        
+        $('#watchedAnime table tbody').html(tableContent);
+    })*/
+    
 
+    //console.log(myInfo);
+ 
+    
+});
+
+
+function isLoggedIn(req, res, next) {
+    
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+    
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
 
 module.exports = router;

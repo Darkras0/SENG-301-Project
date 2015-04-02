@@ -1,0 +1,65 @@
+﻿extends layout
+
+block content
+    h1= title
+    p Welcome to our test
+
+    // Wrapper
+    #wrapper
+
+        // USER INFO
+        #userInfo
+            h2 User Info
+            p
+                strong Name:
+                |   = 'user.username'
+                br
+                strong Age:
+                |   <span id='userInfoAge'></span>
+                br
+                strong Gender:
+                |   <span id='userInfoGender'></span>
+                br
+                strong Location:
+                |   <span id='userInfoLocation'></span>
+                br
+                strong Watched Anime:
+                |   <span id='userInfoWatchedAnime'></span>
+        // /USER INFO
+
+
+        
+        // USER LIST
+        h2 User List
+        #userList
+            table
+                thead
+                    th UserName
+                    th Email
+                    th Delete?
+                tbody
+        // /USER LIST
+
+
+        //ADD ANIME
+        h2 Add Anime
+        #addAnime
+            fieldset
+                input#inputAnime(type='text', placeholder='Anime')
+                input#inputGenre(type='text', placeholder ='Genre')
+                input#userToMod(type='text', placeholder='User to add to')
+                bt
+                button#btnAddAnime Add Anime
+        // /ADD ANIME
+
+        // Display Watched Anime
+        #watchedAnime
+            h2 Watched Anime
+                table
+                    thead
+                        th Anime Name
+                        th Genre
+                    tbody
+        // /Watched anime
+               
+    // /WRAPPER
