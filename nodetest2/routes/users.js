@@ -108,15 +108,22 @@ router.delete('/deleteuser/:id', function (req, res) {
 
 
 
-
+/*
 router.get('/auth', function (req, res, next) {
     res.sendFile('login.html', { root: path.join(__dirname, '../views') });
 });
+*/
 
+router.get('/auth', function (req, res, next) {
+    res.render('login.jade');
+});
 
 
 router.get('/loginFailure' , function (req, res, next) {
-    res.send("Failed authenticating");
+    req.flash('message', 'Invalid username or password');
+ //   console.log('message: ' + req.flash('message'));
+    res.render('login.jade', { message : req.flash('message') });
+    
 });
 
 router.get('/loginSuccess' , function (req, res, next) {
@@ -134,10 +141,33 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
     var db = req.db
     var user = req.user
     var password = req.password
-  /*  var myInfo = db.collection('userlist').findOne({ username : user }, function (error, result) {
-        res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + error });
-    });*/
-    res.render('profile', { user: req.user });
+
+
+
+    db.collection('userlist').findOne({ username: user },function (err, results) {
+        console.log(results); // output all records
+        
+        var tableContent = ''
+        
+        if (results.watchedAnime != null) {
+            for (i = 0; results.watchedAnime[i] != null; i++) {
+                tableContent += '<tr>';
+                tableContent += '<td>' + results.watchedAnime[i].animeName + '</td>';
+                tableContent += '<td>' + results.watchedAnime[i].genre + '</td>';
+                tableContent += '</tr>';
+            }
+        }
+        
+        console.log("Table content : " + tableContent);
+        
+        var data = JSON.stringify(tableContent);
+        data = data.substring(1, data.length - 1);
+        
+        console.log("Data : " + data);
+
+        res.render('profile', { user : results, data : data });
+    });
+
   /*  $(document).ready(function () {
         
           
