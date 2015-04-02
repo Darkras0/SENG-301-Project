@@ -1,6 +1,7 @@
 ﻿extends layout
 
 block content
+
     h1= title
     p Welcome to our test
 
@@ -51,7 +52,7 @@ block content
                 bt
                 button#btnAddAnime Add Anime
         // /ADD ANIME
-
+        
         // Display Watched Anime
         #watchedAnime
             h2 Watched Anime
@@ -60,6 +61,6 @@ block content
                         th Anime Name
                         th Genre
                     tbody
+                        div!=data
         // /Watched anime
-               
     // /WRAPPER

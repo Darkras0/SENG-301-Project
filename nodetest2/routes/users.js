@@ -139,7 +139,26 @@ router.get('/profile', isLoggedIn, function (req, res, next) {
 
     db.collection('userlist').findOne({ username: user },function (err, results) {
         console.log(results); // output all records
-        res.render('profile', { user : results });
+        
+        var tableContent = ''
+        
+        if (results.watchedAnime != null) {
+            for (i = 0; results.watchedAnime[i] != null; i++) {
+                tableContent += '<tr>';
+                tableContent += '<td>' + results.watchedAnime[i].animeName + '</td>';
+                tableContent += '<td>' + results.watchedAnime[i].genre + '</td>';
+                tableContent += '</tr>';
+            }
+        }
+        
+        console.log("Table content : " + tableContent);
+        
+        var data = JSON.stringify(tableContent);
+        data = data.substring(1, data.length - 1);
+        
+        console.log("Data : " + data);
+
+        res.render('profile', { user : results, data : data });
     });
 
   /*  $(document).ready(function () {
