@@ -1,0 +1,14 @@
+test pseudocode:
+
+get a user's anime info with userParser (input: username)
+take the first entry in the resulting array:
+	var a = results[0][0] //animeid
+	var b = results[0][1] //animetitle
+		replace any " " in b with "_"
+	var c = "http://http://myanimelist.net/anime/" + a + "/" + b
+call the genreParser using c as input argument
+for each entry in the resulting array:
+	change the entry by passing it through genreConverter
+combine all the results into a single string
+call searchParser, using "" as the first argument, and the string from the previous line as the second argument
+the results from this will be recommended anime
