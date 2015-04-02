@@ -1,4 +1,3 @@
-var toSearch = "tengen toppa gurren lagann";
 function recommendAnimeOnce(toSearch, callback) {
 var complete = [];
 var f = "";
