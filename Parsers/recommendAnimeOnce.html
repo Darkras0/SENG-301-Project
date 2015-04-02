@@ -7,31 +7,16 @@
 	<script src="genreParser.js"></script>
 	<script src="genreConverter.js"></script>
 	<script src="searchParser.js"></script>
+	<script src="recommendAnimeOnce.js"></script>
 	<script type="text/javascript">
-//var toSearch = prompt("Enter an anime you like:");
-var toSearch = "tengen toppa gurren lagann";
-var complete = [];
-var f = "";
+var toSearch = prompt("Enter an anime you like:");
+toSearch = toSearch.replace(/ /g,"+");
+//var username = prompt("Enter your MAL username:");
+var results;
 
-searchResults(toSearch, f, function(call4) {
-	var h = call4;
-	
-	
-	//this creates a deep copy
-	var p = JSON.parse(JSON.stringify(h));;
-	
-	/*for (var i = h.length - 1; i >= 0; i--) {
-		var i2 = h[i].indexOf("/",7);
-		h[i] = h[i].substring(7,i2);
-		for (var j = 0; j < a.length; j++) {
-			
-			if (h[i] === a[j][0]) {
-				p.splice(i,1);
-			}
-		}
-	}*/
-	
-	alert(h);
+recommendAnimeOnce(toSearch, function(call) {
+	results = call;
+	alert(call);
 });
 
 	</script>
