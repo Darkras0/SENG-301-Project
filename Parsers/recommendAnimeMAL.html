@@ -10,8 +10,10 @@
 	<script src="recommendAnimeMAL.js"></script>
 	<script type="text/javascript">
 var username = prompt("Enter your MAL username:");
+var results;
 
 recommendAnimeMAL(username, function(call) {
+	results = call;
 	alert(call);
 });
 
