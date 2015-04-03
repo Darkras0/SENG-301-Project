@@ -8,7 +8,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
-var session = require('express-session')
+var session = require('express-session');
+var fs = require('fs');
+var $ = require('jquery');
 
 mongoose.connect('mongodb://localhost:27017/nodetest2');
 
@@ -40,9 +42,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 
+//All of the middle ware is loaded here
 app.use(session({ secret: 'secret' }, { cookie: { maxAge: 60000,   secure : false } }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -55,7 +56,7 @@ app.use(passport.session());
 
 
 
-
+//Used for passport authentication
 passport.serializeUser(function (user, done) {
     done(null, user.username);
 });
@@ -64,6 +65,7 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
+//The strategy used by passport to authenticate users
 passport.use(new LocalStrategy(
     function (username, password, done) {
         
@@ -101,8 +103,7 @@ app.use(function(req, res, next) {
 
 // error handlers
 
-// development error handler
-// will print stacktrace
+
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -113,8 +114,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {

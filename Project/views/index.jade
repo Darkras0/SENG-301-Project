@@ -1,0 +1,56 @@
+extends layout
+
+block content
+    // Wrapper
+    #wrapper
+    
+
+
+        div(style='text-align: center')
+            h1 Recommend me anime
+            message  #{message}
+
+        div(style='text-align: right')
+            form(action='/users/login',method='post')
+                div(data-role='fieldcontain')
+                  fieldset(data-role='controlgroup')
+                    label(for='username') username
+                       input(id='username',type='text',value='',placeholder='Username',name='username')
+                div#passworddiv(data-role='fieldcontain')
+                  fieldset(data-role='controlgroup')
+                    label(for='password') password
+                       input(id='password',type='password',value='',placeholder='Password',name='password')
+                div(data-role='fieldcontain')   
+                  input(type='submit',value='Sign in',data-transition='fade', data-theme='c')
+
+        div(style='text-align: right')
+            <a href="http://localhost:3000/users/signup">Sign up</a>
+        // USER LIST
+
+ 
+        // Search anime
+        #searchAnime
+        div(style='text-align: center')
+            h2 Search Anime
+                fieldset
+                    input#searchAnime(type='text', placeholder='Type in anime here')
+                    bt
+                    button(onclick='recommendAnimeOnce("fullmetal")') Search
+
+        // /Search anime
+        script(src="../Parsers/recommendAnimeOnce.js")
+        script(src="../Parsers/userParser.js")
+        script(src="../Parsers/searchParser.js")
+        script(src="../Parsers/genreParser.js")
+        script(src="../Parsers/genreConverter.js")
+        script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js")
+        script.
+            var results;
+            var username = "itachi0970";
+            recommendAnimeOnce(username, function (call) {
+                results = call;
+                console.log("Results : " + results);
+            });
+            console.log(results);
+
+    // /WRAPPER

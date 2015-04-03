@@ -1,0 +1,20 @@
+﻿doctype html5
+html
+head
+title Test Page
+
+block content
+    body
+        Error #{message}
+     div
+  form(action='/users/login',method='post')
+    div(data-role='fieldcontain')
+      fieldset(data-role='controlgroup')
+        label(for='username') username
+           input(id='username',type='text',value='',placeholder='Username',name='username')
+    div#passworddiv(data-role='fieldcontain')
+      fieldset(data-role='controlgroup')
+        label(for='password') password
+           input(id='password',type='password',value='',placeholder='Password',name='password')
+    div(data-role='fieldcontain')   
+      input(type='submit',value='Sign in',data-transition='fade', data-theme='c')

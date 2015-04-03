@@ -1,0 +1,22 @@
+﻿doctype html5
+html
+head
+title Sign up
+
+block content
+    body
+        Error #{message}
+     div
+  form(action='/users/signup',method='post')
+    .form-group
+          label(for='username') Username
+          input(type='text', name='username', class='form-control', 
+            id='username', placeholder='Enter username', 
+            required, data-required-msg='Username is required')
+    .form-group
+        label(for='password') Password
+        input(type='password', name='password', class='form-control', 
+        id='password', placeholder='Enter password'
+        required, data-required-msg='Password is required')
+    .form-group
+          button.btn.btn-default Register

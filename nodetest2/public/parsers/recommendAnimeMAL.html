@@ -1,0 +1,22 @@
+<html>
+<head>
+</head>
+<body>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+	<script src="userParser.js"></script>
+	<script src="genreParser.js"></script>
+	<script src="genreConverter.js"></script>
+	<script src="searchParser.js"></script>
+	<script src="recommendAnimeMAL.js"></script>
+	<script type="text/javascript">
+var username = prompt("Enter your MAL username:");
+var results;
+
+recommendAnimeMAL(username, function(call) {
+	results = call;
+	alert(call);
+});
+
+	</script>
+</body>
+</html>

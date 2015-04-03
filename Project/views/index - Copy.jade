@@ -1,0 +1,111 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to our test
+    
+    // Wrapper
+    #wrapper
+        message = #{message}
+
+
+        // USER INFO
+        #userInfo
+            h2 User Info
+            p
+                strong Name:
+                |   <span id='userInfoName'></span>
+                br
+                strong Age:
+                |   <span id='userInfoAge'></span>
+                br
+                strong Gender:
+                |   <span id='userInfoGender'></span>
+                br
+                strong Location:
+                |   <span id='userInfoLocation'></span>
+                br
+                strong Watched Anime:
+                |   <span id='userInfoWatchedAnime'></span>
+        // /USER INFO
+
+        div(style='text-align: right')
+            form(action='/users/login',method='post')
+                div(data-role='fieldcontain')
+                  fieldset(data-role='controlgroup')
+                    label(for='username') username
+                       input(id='username',type='text',value='',placeholder='Username',name='username')
+                div#passworddiv(data-role='fieldcontain')
+                  fieldset(data-role='controlgroup')
+                    label(for='password') password
+                       input(id='password',type='password',value='',placeholder='Password',name='password')
+                div(data-role='fieldcontain')   
+                  input(type='submit',value='Sign in',data-transition='fade', data-theme='c')
+        // USER LIST
+        h2 User List
+        #userList
+            table
+                thead
+                    th UserName
+                    th Email
+                    th Delete?
+                tbody
+        // /USER LIST
+
+        // ADD USER
+        h2 Add User
+        #addUser
+            fieldset
+                input#inputUserName(type='text', placeholder='Username')
+                input#inputPassword(type='text', placeholder='Password')
+                input#inputUserEmail(type='text', placeholder='Email')
+                br
+                input#inputUserFullname(type='text', placeholder='Full Name')
+                input#inputUserAge(type='text', placeholder='Age')
+                br
+                input#inputUserLocation(type='text', placeholder='Location')
+                input#inputUserGender(type='text', placeholder='gender')
+                br
+                button#btnAddUser Add User
+        // /ADD USER
+
+        //ADD ANIME
+        h2 Add Anime
+        #addAnime
+            fieldset
+                input#inputAnime(type='text', placeholder='Anime')
+                input#inputGenre(type='text', placeholder ='Genre')
+                input#userToMod(type='text', placeholder='User to add to')
+                bt
+                button#btnAddAnime Add Anime
+        // /ADD ANIME
+
+        // Display Watched Anime
+        #watchedAnime
+            h2 Watched Anime
+                table
+                    thead
+                        th Anime Name
+                        th Genre
+                    tbody
+        // /Watched anime
+        
+        // Search anime
+        #searchAnime
+            h2 Search Anime
+                fieldset
+                    input#searchAnime(type='text', placeholder='Type in anime here')
+                    bt
+                    button#btnSearchAnime Search
+
+        // /Search anime
+
+        // Login
+        
+
+        #Login
+              button#btnLogin Login
+        // /Login
+                    
+
+    // /WRAPPER

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+	<script src="userParser.js"></script>
+	<script src="genreParser.js"></script>
+	<script src="genreConverter.js"></script>
+	<script src="searchParser.js"></script>
+	<script src="recommendAnimeOnce.js"></script>
+	<script type="text/javascript">
+var toSearch = prompt("Enter an anime you like:");
+toSearch = toSearch.replace(/ /g,"+");
+//var username = prompt("Enter your MAL username:");
+var results;
+
+recommendAnimeOnce(toSearch, function(call) {
+	results = call;
+	$.ajax({
+	    type: "POST",
+	    url: '/',
+	    data: results,
+        dataType: 'JSON'
+	});
+});
+
+	</script>
+</body>
+</html>

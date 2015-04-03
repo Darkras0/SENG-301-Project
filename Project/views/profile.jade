@@ -1,0 +1,36 @@
+﻿extends layout
+
+block content
+
+
+    // Wrapper
+    #wrapper
+        div(style='text-align: center')
+            h1 #{user.username}'s Profile
+
+        //ADD ANIME
+        div(style='text-align: left')
+            h2 Add Anime
+            #addAnime
+                fieldset
+                    input#inputAnime(type='text', placeholder='Anime')
+                    input#inputGenre(type='text', placeholder ='Genre')
+                    bt
+                    button#btnAddAnime Add Anime
+        // /ADD ANIME
+        br
+        br
+        br
+        
+        // Display Watched Anime
+        #watchedAnime
+        div(style='text-align: left')
+            h2 Watched Anime
+                table
+                    thead
+                        th Anime Name
+                        th Genre
+                    tbody
+                        div!=data
+        // /Watched anime
+    // /WRAPPER
