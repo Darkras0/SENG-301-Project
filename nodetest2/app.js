@@ -12,7 +12,7 @@ var session = require('express-session');
 var fs = require('fs');
 var $ = require('jquery');
 
-mongoose.connect('mongodb://localhost:27017/nodetest2');
+mongoose.connect('mongodb://localhost:27017/project');
 
 var mongooseDB = mongoose.connection;
 
@@ -26,7 +26,7 @@ mongooseDB.once('open', function () {
 // Database
 var mongo = require('mongoskin');
 
-var db = mongo.db("mongodb://localhost:27017/nodetest2", { native_parser: true });
+var db = mongo.db("mongodb://localhost:27017/project", { native_parser: true });
 
 
 var routes = require('./routes/index');
@@ -68,6 +68,7 @@ passport.deserializeUser(function (user, done) {
 //The strategy used by passport to authenticate users
 passport.use(new LocalStrategy(
     function (username, password, done) {
+        var db = req.db
         
         process.nextTick(function () {
             db.collection('userlist').findOne({ 'username': username },

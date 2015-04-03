@@ -13,7 +13,7 @@ var flash = require('connect-flash');
 var recommendAnime = require('../public/Parsers/recommendAnimeOnce.js')
 var searchResults = require('../public/Parsers/searchParser.js')
 
-router.use(express.static(__dirname + '/public/Parsers'));
+router.use("/styles", express.static(__dirname + '/public/Parsers'));
 router.get('/auth', function (req, res) {
     
     res.sendFile(path.resolve('public/Parsers/recommendAnimeOnce.html'));
@@ -181,6 +181,10 @@ router.post('/login',
  * Displays profile page
  */
 router.get('/profile', isLoggedIn, function (req, res, next) {
+    var db = req.db
+
+    var user = req.user
+    var password = req.password
 
     db.collection('userlist').findOne({ username: user },function (err, results) {
         console.log(results); // output all records

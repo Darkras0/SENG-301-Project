@@ -181,6 +181,10 @@ router.post('/login',
  * Displays profile page
  */
 router.get('/profile', isLoggedIn, function (req, res, next) {
+    var db = req.db
+
+    var user = req.user
+    var password = req.password
 
     db.collection('userlist').findOne({ username: user },function (err, results) {
         console.log(results); // output all records
